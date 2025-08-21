@@ -1,0 +1,58 @@
+plugins {
+	id 'java'
+	id 'org.springframework.boot' version '3.5.4'
+	id 'io.spring.dependency-management' version '1.1.7'
+}
+
+group = 'com.ec2.event'
+version = '0.0.1-SNAPSHOT'
+description = 'event server for EC2'
+
+java {
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(17)
+	}
+}
+
+repositories {
+	mavenCentral()
+}
+
+dependencies {
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.security:spring-security-crypto'
+	compileOnly 'org.projectlombok:lombok'
+	runtimeOnly 'org.postgresql:postgresql'
+	annotationProcessor 'org.projectlombok:lombok'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+	implementation 'org.springframework.boot:spring-boot-starter-data-redis'
+	implementation 'org.springframework.boot:spring-boot-starter-actuator'
+	implementation 'io.micrometer:micrometer-registry-prometheus'
+
+
+
+	// JWT (JSON Web Token) 라이브러리
+	implementation 'io.jsonwebtoken:jjwt-api:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-impl:0.11.5'
+	runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
+
+	// OpenTelemetry SDK (기본)
+	implementation("io.opentelemetry:opentelemetry-api:1.44.1")
+	implementation("io.opentelemetry:opentelemetry-sdk:1.44.1")
+
+	// Resource & Semantic conventions (서비스명, 버전 등 메타데이터 정의)
+	implementation("io.opentelemetry:opentelemetry-semconv:1.29.0-alpha")
+
+	// OTLP Exporter (Collector / Tempo / Jaeger 등으로 전송)
+	implementation("io.opentelemetry:opentelemetry-exporter-otlp:1.44.1")
+
+	// 자동 계측 (Spring, JDBC, HTTP client 등)
+	implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-starter:2.7.0")
+	implementation("io.opentelemetry.instrumentation:opentelemetry-spring-boot-autoconfigure:2.7.0")
+}
+
+tasks.named('test') {
+	useJUnitPlatform()
+}
